@@ -1,37 +1,41 @@
 package main
 
 import (
-	"fmt"
-	"os"
 	"bufio"
+	"os"
 	"strconv"
 )
 
-func main() {
-	file, open_err := os.Open("input.txt")
-	if open_err != nil {
-		fmt.Println("Error opening file: %v", open_err)
-	  }
+func day1() (count int) {
+	file, _ := os.Open("input.txt")
 	defer file.Close()
 
 	position := 50
-	var count int
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := scanner.Text()
 		distance, _ := strconv.Atoi(line[1:])
 		if line[0] == 'R' {
-			distance *= 1
+			position += distance
+
+			for position > 99 {
+				position -= 100
+				count++
+			}
 		} else if line[0] == 'L' {
-			distance *= -1
-		}
-		position += distance
-		position = position % 100
-		if position == 0 {
-			count++
+			if position == 0 {
+				position = 100
+			}
+			position -= distance
+			for position < 0 {
+				position += 100
+				count++
+			}
+			if position == 0 {
+				count++
+			}
 		}
 	}
-
-	fmt.Println("Password:", count)
+	return
 }

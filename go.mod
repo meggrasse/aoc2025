@@ -1,3 +1,3 @@
-module grasse/aoc-1
+module grasse/aoc
 
 go 1.25.0
