@@ -7,5 +7,5 @@ func main() {
 	//fmt.Println("Day 1 Part 2:", pw)
 
 	sum := day2()
-	fmt.Println("Day 2 Part 1:", sum)
+	fmt.Println("Day 2 Part 2:", sum)
 }

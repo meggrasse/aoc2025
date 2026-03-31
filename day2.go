@@ -34,13 +34,21 @@ func day2() (sum int) {
 		l, u, _ := bytes.Cut(b, []byte("-"))
 		upper, _ := strconv.Atoi(string(u))
 		lower, _ := strconv.Atoi(string(l))
+	outer:
 		for i := lower; i <= upper; i++ {
-			pow := int(math.Ceil(math.Log10(float64(i)))) / 2
-			base := int(math.Pow10(pow))
-			lhs := i - i/base        // intentionally using integer division
-			rhs := (i / base) * base // intentionally using integer division
-			if lhs == rhs {
-				sum += i
+			max_pow := int(math.Log10(float64(i))) + 1
+			for j := 1; j <= max_pow/2; j++ {
+				for k := j; k <= max_pow-j; k += j {
+					lhs := i % int(math.Pow10(k)) / int(math.Pow10(k-j))
+					rhs := i % int(math.Pow10(k+j)) / int(math.Pow10(k))
+					if lhs != rhs {
+						break
+					}
+					if k == max_pow-j {
+						sum += i
+						continue outer
+					}
+				}
 			}
 		}
 
